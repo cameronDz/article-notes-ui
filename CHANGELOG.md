@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated babel, eslint, react, and webpack minor versions
 - Images moved to assets directory
+- Moved Article Resource Added display to top section of card
 
 ### Fixed
 - Issue with parsing payload on download/upload of article note
