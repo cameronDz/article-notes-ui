@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Webpack copy module for moving images and favicon on build
 - Favicon to src directory
 - Enter key feature for Comments, Quotes, and Tag input fields
+- Display latest article overview card on landing tab 
 
 ### Changed
 - Updated babel, eslint, react, and webpack minor versions
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Issue with parsing payload on download/upload of article note
+- Multiline textarea label and lines overlapping (happening on Comments, Quotes, and Description)
 
 ## [1.11.0]  2020-09-27
 ### Changed
