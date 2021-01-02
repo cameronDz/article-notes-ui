@@ -145,15 +145,15 @@ const input = ({ uploadArticle }) => {
       </Grid>
       <Grid item xs={12} sm={7}>
         <Grid item xs={12}>
-          <TextField fullWidth multiline label="Description" onChange={event => setDescription(event.target.value)} value={description}></TextField>
+          <TextField fullWidth multiline rows={3} label="Description" onChange={event => setDescription(event.target.value)} value={description}></TextField>
         </Grid>
         <Grid item xs={12}>
-          <TextField fullWidth multiline label="Comments" onChange={event => setComment(event.target.value)} onKeyDown={event => handleKeyDown(event, 'Comments')} value={comment}></TextField>
+          <TextField fullWidth multiline rows={3} label="Comments" onChange={event => setComment(event.target.value)} onKeyDown={event => handleKeyDown(event, 'Comments')} value={comment}></TextField>
           <Button style={{ marginRight: '16px' }} onClick={handleAddComment} disabled={!comment}>Add Comment</Button>
           <Button onClick={handleRemoveComment} disabled={!comments.length}>Remove Comment</Button>
         </Grid>
         <Grid item xs={12}>
-          <TextField fullWidth multiline label="Quotes" onChange={event => setQuote(event.target.value)} onKeyDown={event => handleKeyDown(event, 'Quotes')} value={quote}></TextField>
+          <TextField fullWidth multiline rows={3} label="Quotes" onChange={event => setQuote(event.target.value)} onKeyDown={event => handleKeyDown(event, 'Quotes')} value={quote}></TextField>
           <Button style={{ marginRight: '16px' }} onClick={handleAddQuote} disabled={!quote}>Add Quote</Button>
           <Button onClick={handleRemoveQuote} disabled={!quotes.length}>Remove Quote</Button>
         </Grid>
