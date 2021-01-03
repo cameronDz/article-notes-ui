@@ -11,8 +11,17 @@ const processSuccessfulUpload = payload => {
 export const uploadArticle = (content) => {
   return dispatch => {
     const url = baseHerokuUrl + 'upload?index=true';
+    dispatch({ type: _types.START_UPLOAD_ARTICLE_POST_REQUEST });
     return axios.post(url, content, config)
-      .then(payload => { dispatch(processSuccessfulUpload(payload)); })
-      .catch(error => { console.log('error::', error); });
+      .then(payload => {
+        console.log('successful upload payload:', payload);
+        dispatch(processSuccessfulUpload(payload));
+      })
+      .catch(error => {
+        console.log('upload error:', error);
+      })
+      .finally(() => {
+        dispatch({ type: _types.END_UPLOAD_ARTICLE_POST_REQUEST });
+      });
   };
 };

@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import PropType from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
-
 import Card from '../../card';
 
 import { uploadArticle } from './state/actions';
 import { downloadJson } from '../../../libs/download';
 import { generateDateString } from '../../../libs/date';
 
-const propTypes = { uploadArticle: PropType.func };
-const input = ({ uploadArticle }) => {
+const propTypes = { processing: PropType.bool, uploadArticle: PropType.func };
+const input = ({ isProcessing, uploadArticle }) => {
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [publishDate, setPublishDate] = useState('');
@@ -107,6 +107,10 @@ const input = ({ uploadArticle }) => {
       </Grid>);
   };
 
+  const getProcessIndicator = () => {
+    return !!isProcessing && (<LinearProgress />);
+  };
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
@@ -158,6 +162,7 @@ const input = ({ uploadArticle }) => {
           <Button onClick={handleRemoveQuote} disabled={!quotes.length}>Remove Quote</Button>
         </Grid>
       </Grid>
+      {getProcessIndicator()}
       <Grid item xs={12}>
         <div style={{ fontSize: '20px', marginBottom: '12px' }}>Card Preview</div>
         {getPreview()}
@@ -171,5 +176,5 @@ const input = ({ uploadArticle }) => {
 };
 
 input.propTypes = propTypes;
-const mapStateToProps = null;
+const mapStateToProps = state => ({ isProcessing: state.input.processingUpload });
 export default connect(mapStateToProps, { uploadArticle })(input);
