@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropType from 'prop-types';
 import Button from '@material-ui/core/Button';
@@ -7,12 +7,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
 import Card from '../../card';
 
-import { uploadArticle } from './state/actions';
+import { uploadArticle, updateIndex } from './state/actions';
 import { downloadJson } from '../../../libs/download';
 import { generateDateString } from '../../../libs/date';
 
-const propTypes = { isProcessing: PropType.bool, uploadArticle: PropType.func };
-const input = ({ isProcessing, uploadArticle }) => {
+const propTypes = {
+  index: PropType.arrayOf(PropType.number),
+  isProcessing: PropType.bool,
+  latestUploadKey: PropType.number,
+  uploadArticle: PropType.func
+};
+
+const input = ({ index, isProcessing, latestUploadKey, uploadArticle, updateIndex }) => {
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [publishDate, setPublishDate] = useState('');
@@ -26,6 +32,19 @@ const input = ({ isProcessing, uploadArticle }) => {
   const [quotes, setQuotes] = useState([]);
   const [tag, setTag] = useState('');
   const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    if (!isProcessing && !!latestUploadKey) {
+      addUploadToIndex();
+    }
+  }, [isProcessing]);
+
+  const addUploadToIndex = () => {
+    if (!!index && !!index.length && !index.includes(latestUploadKey)) {
+      const newIndex = [...index, latestUploadKey];
+      updateIndex(newIndex);
+    }
+  };
 
   const handleClearClick = () => {
     setAuthor('');
@@ -170,13 +189,13 @@ const input = ({ isProcessing, uploadArticle }) => {
         {getPreview()}
       </Grid>
       <Grid style={{ marginTop: '12px', padding: '4px' }} item xs={12}>
-        <Button variant="outlined" style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleDownloadClick}>Download form Data</Button>
-        <Button variant="outlined" style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleUploadClick}>Upload form Data to S3</Button>
-        <Button variant="outlined" style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleClearClick}>Clear Form</Button>
+        <Button variant="outlined" disabled={isProcessing} style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleDownloadClick}>Download form Data</Button>
+        <Button variant="outlined" disabled={isProcessing} style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleUploadClick}>Upload form Data to S3</Button>
+        <Button variant="outlined" disabled={isProcessing} style={{ marginRight: '16px', marginBottom: '8px' }} onClick={handleClearClick}>Clear Form</Button>
       </Grid>
     </Grid>);
 };
 
 input.propTypes = propTypes;
-const mapStateToProps = state => ({ isProcessing: state.input.processingUpload });
-export default connect(mapStateToProps, { uploadArticle })(input);
+const mapStateToProps = state => ({ index: state.articles.index, isProcessing: state.input.processingUpload, latestUploadKey: state.input.latestUploadKey });
+export default connect(mapStateToProps, { uploadArticle, updateIndex })(input);

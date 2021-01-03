@@ -6,7 +6,7 @@ const reducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case types.SUCCESS_ARTICLE_UPLOAD:
-      newState = { ...state, ...action.data };
+      newState = { ...state, latestUploadKey: action.key };
       break;
     case types.START_UPLOAD_ARTICLE_POST_REQUEST:
       newState = { ...state, processingUpload: true };

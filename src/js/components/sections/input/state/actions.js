@@ -15,8 +15,9 @@ export const uploadArticle = (content) => {
     dispatch(startUploadPostRequest());
     return axios.post(url, content, config)
       .then(payload => {
-        const data = get(payload, 'data', {});
-        return dispatch({ data, type: _types.SUCCESS_ARTICLE_UPLOAD });
+        const keyValue = get(payload, 'data.key', '');
+        const key = parseInt(keyValue.replace('.json', ''));
+        return dispatch({ key, type: _types.SUCCESS_ARTICLE_UPLOAD });
       })
       .catch(error => {
         console.log('upload error:', error);
@@ -25,4 +26,18 @@ export const uploadArticle = (content) => {
         return dispatch({ type: _types.END_UPLOAD_ARTICLE_POST_REQUEST });
       });
   };
+};
+
+export const updateIndex = (updatedIndex) => {
+  const url = baseHerokuUrl + 'update/index.json';
+  return axios.put(url, updatedIndex, config)
+    .then(payload => {
+      console.log('successful index update:', payload);
+    })
+    .catch(error => {
+      console.log('index update error:', error);
+    })
+    .finally(() => {
+      console.log('index update completed');
+    });
 };
