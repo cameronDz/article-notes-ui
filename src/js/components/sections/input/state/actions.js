@@ -29,15 +29,17 @@ export const uploadArticle = (content) => {
 };
 
 export const updateIndex = (updatedIndex) => {
-  const url = baseHerokuUrl + 'update/index.json';
-  return axios.put(url, updatedIndex, config)
-    .then(payload => {
-      console.log('successful index update:', payload);
-    })
-    .catch(error => {
-      console.log('index update error:', error);
-    })
-    .finally(() => {
-      console.log('index update completed');
-    });
+  return dispatch => {
+    const url = baseHerokuUrl + 'update/index.json';
+    return axios.put(url, updatedIndex, config)
+      .then(payload => {
+        console.log('successful index update:', payload);
+      })
+      .catch(error => {
+        console.log('index update error:', error);
+      })
+      .finally(() => {
+        return dispatch({ type: _types.UPDATE_INDEX_COMPLETED });
+      });
+  };
 };
