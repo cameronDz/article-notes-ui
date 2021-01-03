@@ -11,7 +11,7 @@ import { uploadArticle } from './state/actions';
 import { downloadJson } from '../../../libs/download';
 import { generateDateString } from '../../../libs/date';
 
-const propTypes = { processing: PropType.bool, uploadArticle: PropType.func };
+const propTypes = { isProcessing: PropType.bool, uploadArticle: PropType.func };
 const input = ({ isProcessing, uploadArticle }) => {
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
@@ -162,7 +162,9 @@ const input = ({ isProcessing, uploadArticle }) => {
           <Button onClick={handleRemoveQuote} disabled={!quotes.length}>Remove Quote</Button>
         </Grid>
       </Grid>
-      {getProcessIndicator()}
+      <Grid item xs={12}>
+        {getProcessIndicator()}
+      </Grid>
       <Grid item xs={12}>
         <div style={{ fontSize: '20px', marginBottom: '12px' }}>Card Preview</div>
         {getPreview()}

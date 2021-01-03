@@ -1,27 +1,28 @@
-import * as _types from './types';
 import axios from 'axios';
+import get from 'lodash.get';
+import * as _types from './types';
 
 const baseHerokuUrl = 'https://log-notes-assets-api.herokuapp.com/';
 const config = { header: { 'Content-Type': 'application/json' } };
 
-const processSuccessfulUpload = payload => {
-  return { payload, type: _types.SUCCESS_ARTICLE_UPLOAD };
+const startUploadPostRequest = () => {
+  return { type: _types.START_UPLOAD_ARTICLE_POST_REQUEST };
 };
 
 export const uploadArticle = (content) => {
   return dispatch => {
     const url = baseHerokuUrl + 'upload?index=true';
-    dispatch({ type: _types.START_UPLOAD_ARTICLE_POST_REQUEST });
+    dispatch(startUploadPostRequest());
     return axios.post(url, content, config)
       .then(payload => {
-        console.log('successful upload payload:', payload);
-        dispatch(processSuccessfulUpload(payload));
+        const data = get(payload, 'data', {});
+        return dispatch({ data, type: _types.SUCCESS_ARTICLE_UPLOAD });
       })
       .catch(error => {
         console.log('upload error:', error);
       })
       .finally(() => {
-        dispatch({ type: _types.END_UPLOAD_ARTICLE_POST_REQUEST });
+        return dispatch({ type: _types.END_UPLOAD_ARTICLE_POST_REQUEST });
       });
   };
 };
