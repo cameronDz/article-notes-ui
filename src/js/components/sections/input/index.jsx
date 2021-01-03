@@ -12,9 +12,9 @@ import { downloadJson } from '../../../libs/download';
 import { generateDateString } from '../../../libs/date';
 
 const propTypes = {
-  index: PropType.arrayOf(PropType.number),
+  index: PropType.arrayOf(PropType.number | PropType.string),
   isProcessing: PropType.bool,
-  latestUploadKey: PropType.number,
+  latestUploadKey: PropType.string,
   uploadArticle: PropType.func
 };
 
