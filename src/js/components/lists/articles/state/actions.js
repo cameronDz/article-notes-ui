@@ -15,7 +15,7 @@ const fetchArticle = articleId => {
         return dispatch({ article: payload.data, type: _types.SUCCESSFUL_SINGLE_ARTICLE_GET_REQUEST });
       })
       .catch(error => {
-        console.log('could not process data:', error);
+        console.log('article fetch error:', error);
         return dispatch({ error: error, type: _types.FAILED_SINGLE_ARTICLE_GET_REQUEST });
       })
       .finally(() => {
@@ -50,7 +50,7 @@ export const fetchArticles = () => {
         return dispatch({ index: list, type: _types.SUCCESSFUL_ARTICLE_LIST_GET_REQUEST });
       })
       .catch(error => {
-        console.log('fetch index error:', error);
+        console.log('index fetch error:', error);
         return dispatch({ error: error, type: _types.FAILED_ARTICLE_LIST_GET_REQUEST });
       })
       .finally(() => {

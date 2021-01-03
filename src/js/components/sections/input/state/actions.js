@@ -20,7 +20,7 @@ export const uploadArticle = (content) => {
         return dispatch({ key, type: _types.SUCCESS_ARTICLE_UPLOAD });
       })
       .catch(error => {
-        console.log('upload error:', error);
+        console.log('article upload error:', error);
       })
       .finally(() => {
         return dispatch({ type: _types.END_UPLOAD_ARTICLE_POST_REQUEST });
@@ -32,9 +32,7 @@ export const updateIndex = (updatedIndex) => {
   return dispatch => {
     const url = baseHerokuUrl + 'update/index';
     return axios.put(url, updatedIndex, config)
-      .then(payload => {
-        console.log('successful index update:', payload);
-      })
+      .then(payload => {})
       .catch(error => {
         console.log('index update error:', error);
       })
